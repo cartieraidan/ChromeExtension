@@ -1,0 +1,30 @@
+{
+    "manifest_version": 3,
+    "name": "Cool extension",
+    "icons": {
+        "32": "icon32_2.png"
+    },
+    "version": "1.0.0",
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "index.html"
+     },
+    "permissions" : [
+        "scripting",
+        "activeTab"
+    ],
+    "content_scripts": [
+        {
+            "matches": ["https://chatgpt.com/*"],
+            "js": ["content.js"],
+            "run_at": "document_idle"
+        }
+    ],
+    "host_permissions": [
+        "http://*/*",
+        "https://*/*",
+        "https://chatgpt.com/*"
+    ]
+}
