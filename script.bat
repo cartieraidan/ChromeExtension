@@ -1,0 +1,3 @@
+@echo off
+python "C:\Users\AidaCar1\OneDrive - Magna\Documents\Summer2025\ChromExtv1\script.py"
+:: may need to write python as python3 "C:....

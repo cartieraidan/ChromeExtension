@@ -1,0 +1,9 @@
+{
+  "name": "com.example.script",
+  "description": "My Python Native Host",
+  "path": "C:\\Users\\AidaCar1\\OneDrive - Magna\\Documents\\Summer2025\\ChromExtv1\\script.bat",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://cgamgnapjdlkphljjalkjfbbindppnkg/"
+  ]
+}
