@@ -14,33 +14,33 @@ if (myDiv) {
 const button = document.getElementById("composer-submit-button");
 const form = button.closest("form");
 //const style = document.getElementById("composer-submit-button").style.cssText;
-const computedStyle = window.getComputedStyle(button);
 
-const newButton = document.createElement("button");
-for (let prop of computedStyle) {
-  newButton.style[prop] = computedStyle.getPropertyValue(prop);
-}
-
-newButton.textContent = button.textContent;
-
-newButton.id = "my-submit-button";
-button.style.display = "none";
-button.parentNode.insertBefore(newButton, button.nextSibling);
 
 if (button) {
   chrome.runtime.sendMessage({ type: "log", message: "Removing button"});
-  //button.style.display = "none";
+
+  const computedStyle = window.getComputedStyle(button);
+
+  const newButton = document.createElement("button");
+  for (let prop of computedStyle) {
+    newButton.style[prop] = computedStyle.getPropertyValue(prop);
+  }
 
   
+  newButton.innerHTML = button.innerHTML;
 
-  //const newButton = document.createElement("button");
-  //const newButton = button.cloneNode(true);
-  //newButton.id = "new-composer-submit-button"
-  //newButton.textContent = "Submt";
-  //newButton.id = "my-submit-button";
-  //newButton.type = "button";
+  newButton.id = "my-submit-button";
+  newButton.type = "button";
+  
 
-  //button.parentNode.insertBefore(newButton, button.nextSibling);
+  //function for button here
+  newButton.addEventListener("click", () => {
+    window.open("https://google.com", "_blank");
+    //Get it to execute a pyton file with the div text contents as argument
+  })
+  
+  button.parentNode.insertBefore(newButton, button.nextSibling);
+  button.style.display = "none";
   chrome.runtime.sendMessage({ type: "log", message: "Button Replaced"});
 }
 
