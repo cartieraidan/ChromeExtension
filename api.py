@@ -8,74 +8,99 @@ db = SQLAlchemy(app)
 
 api = Api(app)
 
-class UserModel(db.Model):
+#Creating a database with column id, content, sensitiveData
+#content is the text sent from chrome extension
+#sensitive data is the data return from backend logic
+#sensitive data stored is data sent from chrome extension to optionally aid the backend logic
+class PostedContent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(80), unique=True, nullable=False)
+    content = db.Column(db.String(500), unique=False, nullable=False)
+    sensitiveData = db.Column(db.String(500), unique=False, nullable=True)
+    sensitiveDataStored = db.Column(db.String(500), unique=False, nullable=True)
 
     def __repr__(self):
-        return f"User(name = {self.name}, email = {self.email})"
+        return f"PostedContent(Content: {self.content}, Return sensitiveData: {self.sensitiveData}, Stored sensitive data(user end): {self.sensitiveDataStored})"
 
+#Arguments the parser looks for when data gets sent to api
+#content, mandatory sent from chrome extension
+#sensitiveDataStored, optional to be sent, help with backend
 user_args = reqparse.RequestParser()
-user_args.add_argument('name', type=str, required=True, help="Name cannot be blank")
-user_args.add_argument('email', type=str, required=True, help="Email cannot be blank")
+user_args.add_argument('content', type=str, required=False, help="content can be blank")
+user_args.add_argument('sensitiveDataStored', type=str, required=False, help="Optional stored returned sensitive data")
 
-userFields = {
+#For json responses back to chrome extension from api
+#have one for what we actually want to return and one used for debuging
+contentFieldsDebug = {
     'id':fields.Integer,
-    'name':fields.String,
-    'email':fields.String,
+    'content':fields.String,
+    'sensitiveData':fields.String,
+    'sensitiveDataStored':fields.String
 }
 
-class Users(Resource):
-    @marshal_with(userFields)
+contentFields = {
+    'id':fields.Integer,
+    'sensitiveData':fields.String,
+}
+
+###############create comments for here on after################
+#for understanding
+#using thunder client for testing http request
+
+class Content(Resource):
+    @marshal_with(contentFieldsDebug)
     def get(self):
-        users = UserModel.query.all()
-        return users
+        content = PostedContent.query.all()
+        return content
     
-    @marshal_with(userFields)
+    @marshal_with(contentFieldsDebug)
     def post(self):
         args = user_args.parse_args()
-        user = UserModel(name=args["name"], email=args["email"])
-        db.session.add(user)
+        content = PostedContent(content=args["content"], sensitiveDataStored=args["sensitiveDataStored"])
+        db.session.add(content)
         db.session.commit()
-        users = UserModel.query.all()
-        return users, 201
-
-class User(Resource):
-    @marshal_with(userFields)
-    def get(self, id):
-        user = UserModel.query.filter_by(id=id).first()
-        if not user:
-            abort(404, "User not found")
-        return user
+        contents = PostedContent.query.all()
+        return contents, 201
     
-    @marshal_with(userFields)
+
+class UserContent(Resource):
+    @marshal_with(contentFieldsDebug)
+    def get(self, id):
+        userContent = PostedContent.query.filter_by(id=id).first()
+        if not userContent:
+            abort(404, "User not found")
+        return userContent
+    
+    @marshal_with(contentFieldsDebug)
     def patch(self, id):
         args = user_args.parse_args()
-        user = UserModel.query.filter_by(id=id).first()
-        if not user:
+        userContent = PostedContent.query.filter_by(id=id).first()
+        if not userContent:
             abort(404, "User not found")
-        user.name = args["name"]
-        user.email = args["email"]
-        db.session.commit()
-        return user
-    
-    @marshal_with(userFields)
-    def delete(self, id):
-        user = UserModel.query.filter_by(id=id).first()
-        if not user:
-            abort(404, "User not found")
-        db.session.delete(user)
-        db.session.commit()
-        users = UserModel.query.all()
-        return users, 200
 
-api.add_resource(Users, '/api/users/')
-api.add_resource(User, '/api/users/<int:id>')
+        #for here create a spot where can update sensitiveDataStored in a way that doesn't break format and does not create duplicates
+
+        userContent.sensitiveDataStored = args["sensitiveDataStored"]
+        #user.email = args["email"]
+        db.session.commit()
+        return userContent
+    
+    @marshal_with(contentFieldsDebug)
+    def delete(self, id):
+        userContent = PostedContent.query.filter_by(id=id).first()
+        if not userContent:
+            abort(404, "User not found")
+        db.session.delete(userContent)
+        db.session.commit()
+        users = PostedContent.query.all()
+        return users, 200
+    
+api.add_resource(Content, '/api/content/')
+api.add_resource(UserContent, '/api/user-content/<int:id>')
+
 
 @app.route('/')
 def home():
-    return '<h1>Flask Rest API</h1>'
+    return '<h1>Flask Rest API for chrome extension</h1>'
 
 if __name__ == '__main__':
     app.run(debug=True)
