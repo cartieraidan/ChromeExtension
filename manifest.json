@@ -1,6 +1,7 @@
 {
     "manifest_version": 3,
-    "name": "Cool extension",
+    "name": "com.example.script",
+    "description": "Chrome extension test for ai",
     "icons": {
         "32": "icon32_2.png"
     },
@@ -13,8 +14,7 @@
      },
     "permissions" : [
         "scripting",
-        "activeTab",
-        "nativeMessaging"
+        "activeTab"
     ],
     "content_scripts": [
         {
