@@ -15,6 +15,19 @@ const button = document.getElementById("composer-submit-button");
 const form = button.closest("form");
 //const style = document.getElementById("composer-submit-button").style.cssText;
 
+window.addEventListener('message', function(event) {
+  if (event.source !== window || !event.data || event.data.source !== 'preventForm') return;
+
+  chrome.runtime.sendMessage({ type: event.data.type, message: event.data.message });
+
+});
+
+const script = document.createElement('script');
+script.src = chrome.runtime.getURL('preventForm.js');
+script.onload = function () {
+  this.remove();
+};
+(document.head || document.documentElement).appendChild(script); // loads script into browser
 
 if (button) {
   chrome.runtime.sendMessage({ type: "log", message: "Removing button"});
