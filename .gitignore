@@ -1,0 +1,9 @@
+# Ignore specific files
+api.py
+script.bat
+com.example.script.json
+garbage.js
+icon32.png
+script.py
+scriptTemp2.py
+# need to run command to stop track all of these files
