@@ -20,12 +20,13 @@
         {
             "matches": ["https://chatgpt.com/*"],
             "js": ["content.js"],
-            "run_at": "document_idle"
+            "run_at": "document_start"
         }
     ],
     "host_permissions": [
         "http://*/*",
         "https://*/*",
-        "https://chatgpt.com/*"
+        "https://chatgpt.com/*",
+        "http://127.0.0.1:5000/*"
     ]
 }
