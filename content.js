@@ -15,6 +15,7 @@ const button = document.getElementById("composer-submit-button");
 const form = button.closest("form");
 //const style = document.getElementById("composer-submit-button").style.cssText;
 
+// Injecting script to stop form submission
 window.addEventListener('message', function(event) {
   if (event.source !== window || !event.data || event.data.source !== 'preventForm') return;
 
@@ -23,11 +24,13 @@ window.addEventListener('message', function(event) {
 });
 
 const script = document.createElement('script');
-script.src = chrome.runtime.getURL('preventForm.js');
+script.src = chrome.runtime.getURL('injectTest.js');
 script.onload = function () {
   this.remove();
 };
 (document.head || document.documentElement).appendChild(script); // loads script into browser
+
+// end on form submission
 
 if (button) {
   chrome.runtime.sendMessage({ type: "log", message: "Removing button"});
@@ -49,7 +52,8 @@ if (button) {
   //function for button here
   newButton.addEventListener("click", () => {
     window.open("https://google.com", "_blank");
-    //Get it to execute a pyton file with the div text contents as argument
+    //send a http request from here
+    //also need to another function for stoping submit forms with the enter key
   })
   
   button.parentNode.insertBefore(newButton, button.nextSibling);
