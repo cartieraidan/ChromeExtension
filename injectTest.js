@@ -23,7 +23,8 @@
         
         count += 1000;
         if (count >= 10000) {
-           
+            var data = { type: "FROM_PAGE", text: "Unable to Connected"};
+            window.postMessage(data, "*");
             clearInterval(interval);
         }
     
