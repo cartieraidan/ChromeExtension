@@ -22,6 +22,11 @@ window.addEventListener("message", function(event) {
   if (event.source != window)
     return;
 
+  if (event.data.type === "page-ready") {
+    chrome.runtime.sendMessage({ type: "log", message: "Handshake complete: script is ready" });
+    window.postMessage({ type: "extension-ready"}, "*");
+  }
+
   if (event.data.type && (event.data.type == "FROM_PAGE")) {
     chrome.runtime.sendMessage({ type: "log", message: event.data.text });
   }
