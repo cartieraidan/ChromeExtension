@@ -16,10 +16,16 @@ const form = button.closest("form");
 //const style = document.getElementById("composer-submit-button").style.cssText;
 
 // Injecting script to stop form submission
-window.addEventListener('message', function(event) {
-  if (event.source !== window || !event.data || event.data.source !== 'preventForm') return;
+window.addEventListener("message", function(event) {
+  //if (event.source !== window || !event.data || event.data.source !== 'preventForm') return;
+  
+  if (event.source != window)
+    return;
 
-  chrome.runtime.sendMessage({ type: event.data.type, message: event.data.message });
+  if (event.data.type && (event.data.type == "FROM_PAGE")) {
+    chrome.runtime.sendMessage({ type: "log", message: event.data.text });
+  }
+  //chrome.runtime.sendMessage({ type: event.data.type, message: event.data.message });
 
 });
 
