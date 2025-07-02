@@ -35,17 +35,33 @@
 
         if (conected) {
             // here is to put everything want to do with webpage
-            var data = { type: "FROM_PAGE", text: "Looking for form"};
+            var data = { type: "FROM_PAGE", text: "Replacing form"};
             window.postMessage(data, "*");
             
+            //const button = document.getElementById("composer-submit-button");
+            //const form = button.closest("form");
 
-            const button = document.getElementById("composer-submit-button");
-            const form = button.closest("form");
+            const observer = new MutationObserver(() => {
+                const button = document.getElementById('composer-submit-button');
+                const form = button?.closest('form');
+                if (form && !form.dataset.customReplaced) {
+                    const replacement = form.cloneNode(false); // basic shell
+                    replacement.dataset.customReplaced = "true";
+                    replacement.innerHTML = `
+                    <textarea placeholder="Hijacked form"></textarea>
+                    <button type="submit">Custom Submit</button>
+                    `;
+                    replacement.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        var data = { type: "FROM_PAGE", text: "Hijacked form handled"};
+                        window.postMessage(data, "*");
+                       // console.log('Hijacked form handled');
+                    });
+                    form.parentNode.replaceChild(replacement, form);
+                }
+            });
 
-            if (form) {
-                var data = { type: "FROM_PAGE", text: "Form found"};
-                window.postMessage(data, "*");
-            }
+            observer.observe(document.body, { childList: true, subtree: true });
         }
 
 
