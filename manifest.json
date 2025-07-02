@@ -23,6 +23,10 @@
             "run_at": "document_start"
         }
     ],
+    "web_acecessible_resources": [{
+        "resources": ["injectTest.js"],
+        "matches": ["<all_urls>"]
+    }],
     "host_permissions": [
         "http://*/*",
         "https://*/*",
