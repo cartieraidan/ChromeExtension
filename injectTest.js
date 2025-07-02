@@ -14,6 +14,7 @@
             conected = true;
 
             clearInterval(interval);
+            afterHandshake();
         }
     });
 
@@ -29,9 +30,25 @@
         }
     
     }, 1000); 
-   
-    if (conected) {
-        // here is to put everything want to do with webpage
-    }
+    
+    function afterHandshake() {
 
+        if (conected) {
+            // here is to put everything want to do with webpage
+            var data = { type: "FROM_PAGE", text: "Looking for form"};
+            window.postMessage(data, "*");
+            
+
+            const button = document.getElementById("composer-submit-button");
+            const form = button.closest("form");
+
+            if (form) {
+                var data = { type: "FROM_PAGE", text: "Form found"};
+                window.postMessage(data, "*");
+            }
+        }
+
+
+    }
+    
 })();
