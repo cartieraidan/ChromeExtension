@@ -45,17 +45,19 @@
                 const button = document.getElementById('composer-submit-button');
                 const form = button?.closest('form');
                 if (form && !form.dataset.customReplaced) {
-                    const replacement = form.cloneNode(false); // basic shell
+                    const replacement = form.cloneNode(true); // basic shell
                     replacement.dataset.customReplaced = "true";
+                    /*
                     replacement.innerHTML = `
                     <textarea placeholder="Hijacked form"></textarea>
                     <button type="submit">Custom Submit</button>
                     `;
+                    */
                     replacement.addEventListener('submit', (e) => {
                         e.preventDefault();
                         var data = { type: "FROM_PAGE", text: "Hijacked form handled"};
                         window.postMessage(data, "*");
-                       // console.log('Hijacked form handled');
+                        // here where I can do API calls
                     });
                     form.parentNode.replaceChild(replacement, form);
                 }
