@@ -32,6 +32,11 @@
     }, 1000); 
     
     function afterHandshake() {
+        // going to use this script instead of v2 and whenever form gets replaced need to simulate click inside form
+        //****************************************************** */
+        // and add the observer part in a function and return true or false to use in if statments
+        //###########################
+        // And implement the two other buttons too
 
         if (conected) {
             // here is to put everything want to do with webpage
@@ -46,14 +51,9 @@
                 const button = document.getElementById('composer-submit-button');
                 const form = button?.closest('form');
                 if (form && !form.dataset.customReplaced) {
-                    const replacement = form.cloneNode(true); // basic shell
+                    const replacement = form.cloneNode(true); 
                     replacement.dataset.customReplaced = "true";
-                    /*
-                    replacement.innerHTML = `
-                    <textarea placeholder="Hijacked form"></textarea>
-                    <button type="submit">Custom Submit</button>
-                    `;
-                    */
+                   replacement.id = "custom-replaced-form"
 
                     const hiddenSubmit = document.createElement('button');
                     hiddenSubmit.type = 'submit';
@@ -103,7 +103,8 @@
 
     function formSubmit() {
         // function for after you submit the hijacked one
-        window.open("https://google.com", "_blank"); // test that works
+        var data = { type: "FROM_PAGE", text: "Form submit activated"};
+        window.postMessage(data, "*");
     }
     
 })();
