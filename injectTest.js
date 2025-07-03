@@ -84,7 +84,8 @@
                             var data = { type: "FROM_PAGE", text: "Enter worked"};
                             window.postMessage(data, "*");
 
-                            e.preventDefault(); // stop keys from entering?
+                            e.preventDefault(); // stop keys from entering -> works
+                            formSubmit();
                         }
                            
 
