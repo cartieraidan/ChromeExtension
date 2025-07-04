@@ -1,4 +1,6 @@
+
 (function () {
+  
     
     let count = 0;
     const maxCount = 10000;
@@ -35,23 +37,6 @@
         const button = document.getElementById('composer-submit-button');
         const form = button?.closest('form');
         if (form && !form.dataset.customReplaced) {
-
-            // add for simulate
-            const activeEl = document.activeElement;
-            const isInputFocused = form.contains(activeEl);
-            let cursorPos = null;
-
-            if (isInputFocused && 'selectionStart' in activeEl) {
-                var data = { type: "FROM_PAGE", text: "Getting mouse focus"};
-                window.postMessage(data, "*");
-                cursorPos = { 
-                    start: activeEl.selectionStart,
-                    end: activeEl.selectionEnd,
-                    tag: activeEl.tagName,
-                    name: activeEl.getAttribute("name")
-                };
-            }
-            //above is for simulate
 
             const replacement = form.cloneNode(true); 
             replacement.dataset.customReplaced = "true";
@@ -95,59 +80,59 @@
 
             form.parentNode.replaceChild(replacement, form);
 
-            if (cursorPos) {
-                var data = { type: "FROM_PAGE", text: "Restoring mouse focus"};
-                window.postMessage(data, "*");
-                const restoredInput = replacement.querySelector(
-                    `${cursorPos.tag.toLowerCase()}[name="${cursorPos.name}"]`
-                );
-
-                if (restoredInput) {
-                    restoredInput.focus();
-                    restoredInput.setSelectionRange(cursorPos.start, cursorPos.end);
-                }
-            }
+            
             return true;
         }
         return false
     }
 
     function afterHandshake() {
-        // going to use this script instead of v2 and whenever form gets replaced need to simulate click inside form
-        //****************************************************** */
-        // and add the observer part in a function and return true or false to use in if statments
+       
         //###########################
         // And implement the two other buttons too
+
+        // even more genious idea, why don't I just change the actual action path on the chatgpt website
 
         if (conected) {
             // here is to put everything want to do with webpage
             var data = { type: "FROM_PAGE", text: "Replacing form"};
             window.postMessage(data, "*");
             
-            //const button = document.getElementById("composer-submit-button");
-            //const form = button.closest("form");
 
-            // maybe add another one to replace the form right off the bat instead of using a observer
             const observer = new MutationObserver(() => {
                 if (observerBody()) {
-                    const elemendF = document.getElementById('composer-submit-button');
-                    if (elemendF) {
-                        var data = { type: "FROM_PAGE", text: "Able to find element by id!!!!"};
-                        window.postMessage(data, "*");
-                        let count = 0;
-                        const clickInterval = setInterval(() => {
+                    // move all this into a function
+                    const button = document.getElementById('composer-submit-button');
+                    const form = button?.closest('form');
+
+                    
+                    
+                    const input = form.querySelector('#prompt-textarea');
+                    if (input) {
                         
-                            count += 1000;
-                            elemendF.click();
-                            if (count >= 10000) {
-                                var data = { type: "FROM_PAGE", text: "Trying to click"};
-                                window.postMessage(data, "*");
-                                clearInterval(clickInterval);
-                            }
-                            
-                        }, 1000);
+                        var data = { type: "FROM_PAGE", text: "Found from query select" };
+                        window.postMessage(data, "*");
+
+                        var data = { type: "FROM_PAGE", text: input.textContent };
+                        window.postMessage(data, "*");
+
+                        input.focus();
+                        
+                        // this snippet fixed all my issues
+                        const range = document.createRange();
+                        range.selectNodeContents(input);
+                        range.collapse(false);
+
+                        const selection = window.getSelection();
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                        // ends here
+                        
+
                         
                     }
+                    
+                    
                 }
             });
 
