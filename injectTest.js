@@ -86,10 +86,32 @@
         return false
     }
 
+    function cursorFocus() {
+        const button = document.getElementById('composer-submit-button');
+        const form = button?.closest('form');
+        
+        const input = form.querySelector('#prompt-textarea');
+        if (input) {
+
+            input.focus();
+            
+            // this snippet fixed all my issues
+            const range = document.createRange();
+            range.selectNodeContents(input);
+            range.collapse(false);
+
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            // ends here
+            
+        }
+    }
+
     function afterHandshake() {
        
         //###########################
-        // And implement the two other buttons too
+        // And implement the two other buttons too maybe the other button too
 
         // even more genious idea, why don't I just change the actual action path on the chatgpt website
 
@@ -101,38 +123,9 @@
 
             const observer = new MutationObserver(() => {
                 if (observerBody()) {
-                    // move all this into a function
-                    const button = document.getElementById('composer-submit-button');
-                    const form = button?.closest('form');
-
-                    
-                    
-                    const input = form.querySelector('#prompt-textarea');
-                    if (input) {
-                        
-                        var data = { type: "FROM_PAGE", text: "Found from query select" };
-                        window.postMessage(data, "*");
-
-                        var data = { type: "FROM_PAGE", text: input.textContent };
-                        window.postMessage(data, "*");
-
-                        input.focus();
-                        
-                        // this snippet fixed all my issues
-                        const range = document.createRange();
-                        range.selectNodeContents(input);
-                        range.collapse(false);
-
-                        const selection = window.getSelection();
-                        selection.removeAllRanges();
-                        selection.addRange(range);
-                        // ends here
-                        
-
-                        
-                    }
-                    
-                    
+                    cursorFocus();
+                    // work on the button that says search now
+                    // simple like copy styles and stuff then let it just be variable for when letting it go back to its normal state -> boolean true or false
                 }
             });
 
