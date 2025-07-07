@@ -47,6 +47,34 @@
             hiddenSubmit.style.display = 'none';
             replacement.appendChild(hiddenSubmit);
 
+            const buttons = replacement.getElementsByTagName('button');
+            for (const btn of buttons) {
+                const label = btn.ariaLabel;
+
+                if (label === 'Upload files and more') {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        var data = { type: "FROM_PAGE", text: "Upload files button pressed"};
+                        window.postMessage(data, "*");
+                    });
+                } else if (label === 'Search') {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        var data = { type: "FROM_PAGE", text: "Search button pressed"};
+                        window.postMessage(data, "*");
+                    });
+
+                } else if (label === 'Send prompt') {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        var data = { type: "FROM_PAGE", text: "Send prompt button pressed"};
+                        window.postMessage(data, "*");
+                    });
+                }
+            }
+
+           
+
             replacement.addEventListener('submit', (e) => {
                 e.preventDefault();
                 var data = { type: "FROM_PAGE", text: "Hijacked form handled"};
@@ -72,7 +100,7 @@
                     window.postMessage(data, "*");
 
                     e.preventDefault(); // stop keys from entering -> works
-                    formSubmit();
+                    formSubmit(); 
                 }
                     
 
@@ -137,6 +165,7 @@
 
     function formSubmit() {
         // function for after you submit the hijacked one
+        // need to add an argument where the replacement form is passed in so can do replacement.submit() after all backend logic preformed
         var data = { type: "FROM_PAGE", text: "Form submit activated"};
         window.postMessage(data, "*");
     }
