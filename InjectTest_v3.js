@@ -39,7 +39,21 @@
         window.postMessage(data, "*");
 
         // code here
+        // add an observer that then attaches a event listener to form
+        const observer = new MutationObserver(() => {
+            const button = document.getElementById('composer-submit-button');
+            const form = button?.closest('form');
+
+            if (form) {
+                form.addEventListener('submit', (event) =>{
+                    event.preventDefault();
+                    var data = { type: "FROM_PAGE", text: "Submitted Stopped"};
+                    window.postMessage(data, "*");
+                });
+            }
+        });
         
+        observer.observe(document.body, { childList: true, subtree: true });
 
     } // afterHandshake function
 
