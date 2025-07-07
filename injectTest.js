@@ -60,6 +60,39 @@
                 } else if (label === 'Search') {
                     btn.addEventListener('click', (e) => {
                         e.preventDefault();
+
+                        const wrapper = btn.closest('div');
+                        const isPressed = btn.getAttribute('aria-pressed') === 'true';
+                        btn.setAttribute('aria-pressed', String(!isPressed));
+
+                        //wrapper.classList.toggle('radix-state-open:bg-black/10', !isPressed); // toggle the div that wraps it that dynamically changes its style
+                        if (wrapper) {
+                            if (!isPressed) {
+                            // Going to "pressed" state
+                            wrapper.classList.remove(
+                                'border-token-border-default',
+                                'text-token-text-secondary'
+                            );
+                            wrapper.classList.add(
+                                'border-transparent',
+                                'bg-token-composer-blue-bg',
+                                'text-token-interactive-label-accent-default'
+                            );
+                            } else {
+                            // Going back to "not pressed"
+                            wrapper.classList.remove(
+                                'border-transparent',
+                                'bg-token-composer-blue-bg',
+                                'text-token-interactive-label-accent-default'
+                            );
+                            wrapper.classList.add(
+                                'border-token-border-default',
+                                'text-token-text-secondary'
+                            );
+                            }
+                        }
+
+
                         var data = { type: "FROM_PAGE", text: "Search button pressed"};
                         window.postMessage(data, "*");
                     });
@@ -85,7 +118,7 @@
                 //const formData = new FormData(replacement);
                 //const dataObj = Object.fromEntries(formData.entries());
 
-                formSubmit();
+                formSubmit(replacement);
             });
 
             replacement.addEventListener('keydown', function (e) {
@@ -100,7 +133,7 @@
                     window.postMessage(data, "*");
 
                     e.preventDefault(); // stop keys from entering -> works
-                    formSubmit(); 
+                    formSubmit(replacement); 
                 }
                     
 
@@ -163,11 +196,12 @@
 
     }
 
-    function formSubmit() {
+    function formSubmit(form) {
         // function for after you submit the hijacked one
         // need to add an argument where the replacement form is passed in so can do replacement.submit() after all backend logic preformed
         var data = { type: "FROM_PAGE", text: "Form submit activated"};
         window.postMessage(data, "*");
+        form.submit();
     }
     
 })();
