@@ -10,4 +10,4 @@ Injects a js file `injectTest.js` into chrome tab
 To run this sequence automatically but for now it works
 
 ## Current goal
-Get a constant button on screen
+Got button to appear but now it needs to overlay in a fixed area and cannot have duplicates
