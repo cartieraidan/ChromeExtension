@@ -14,16 +14,13 @@
             color: 'white',
             fontSize: '20px',
             cursor: 'pointer',
-            zIndex: 2147483647
+            zIndex: 2147483647,
+            position: 'fixed',
+            bottom: '20px',
+            right: '20px',
+            border: 'none',
+            borderRadius: '8px'
         });
-
-        const container = document.getElementById('thread-bottom-container');
-
-        //if (container) {
-           // container.appendChild(button);
-       //} else {
-        //    document.body.appendChild(button);
-       // }
 
         document.body.appendChild(button);
 
