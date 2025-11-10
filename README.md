@@ -7,7 +7,8 @@ The file `index.html` holds a button that executes the js file `index.js` that e
 Injects a js file `injectTest.js` into chrome tab
 
 ## future plan
-To run this sequence automatically but for now it works
+N/A
 
 ## Current goal
-Got button to appear but now it needs to overlay in a fixed area and cannot have duplicates
+*set style when button is pressed
+*getting text from input form
