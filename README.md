@@ -1,7 +1,7 @@
 # How it currently works
 
-## extension popup
-The file `index.html` holds a button that executes the js file `index.js` that executes file `content.js`
+## manifest.json
+Injects content.js when the document is loading/starting
 
 ## content.js
 Injects a js file `injectTest.js` into chrome tab
