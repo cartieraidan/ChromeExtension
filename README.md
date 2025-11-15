@@ -10,5 +10,4 @@ Injects a js file `injectTest.js` into chrome tab
 N/A
 
 ## Current goal
-* set style when button is pressed
 * getting text from input form
