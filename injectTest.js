@@ -59,6 +59,10 @@
                 background: 'rgba(35, 141, 36, 1)',
                 boxShadow: '0 0 25px 3px rgba(24, 94, 32, 0.6)'
             });
+
+            const editor = document.querySelector("#prompt-textarea");
+            const text = editor.textContent;
+            button.textContent = text; //just a test to make sure we get the content
         });
 
         document.body.appendChild(button);
