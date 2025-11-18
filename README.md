@@ -10,7 +10,6 @@ Injects a js file `injectTest.js` into chrome tab
 N/A
 
 ## Current goal
-* make button more transparent 
 * setup api to get and post
 * setup api backend to start parsing post after new addition
 * setup api to look for sensitive data then updated row with indexes and content that should be sensored
