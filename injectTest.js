@@ -21,6 +21,7 @@
             bottom: '20px',
             right: '20px',
             border: 'none',
+            opacity: '0.5',
             borderRadius: '40px',
             boxShadow: '0 0 25px 3px rgba(24, 94, 32, 0.6)', 
             transition: 'box-shadow 0.1s ease, transform 0.15s ease, background 0.2s ease'
@@ -30,7 +31,8 @@
         button.addEventListener('mouseenter', () => {
             Object.assign(button.style, {
                 transform: 'scale(1.06)',
-                background: 'rgba(35, 141, 36, 1)'
+                background: 'rgba(35, 141, 36, 1)',
+                opacity: '0.8'
             });
         });
 
@@ -38,7 +40,8 @@
         button.addEventListener('mouseleave', () => {
             Object.assign(button.style, {
                 transform: 'scale(1)',
-                background: 'rgba(96, 217, 98, 1)'
+                background: 'rgba(96, 217, 98, 1)',
+                opacity: '0.5'
             });
         });
 
@@ -47,7 +50,8 @@
             Object.assign(button.style, {
                 transform: 'scale(0.8)',
                 background: 'rgba(35, 141, 36, 1)',
-                boxShadow: '0 0 25px 8px rgba(27, 173, 44, 0.6)'
+                boxShadow: '0 0 25px 8px rgba(27, 173, 44, 0.6)',
+                opacity: '1'
             });
         });
 
@@ -57,7 +61,8 @@
             Object.assign(button.style, {
                 transform: 'scale(1.06)',
                 background: 'rgba(35, 141, 36, 1)',
-                boxShadow: '0 0 25px 3px rgba(24, 94, 32, 0.6)'
+                boxShadow: '0 0 25px 3px rgba(24, 94, 32, 0.6)',
+                opacity: '0.8'
             });
 
             const editor = document.querySelector("#prompt-textarea");
